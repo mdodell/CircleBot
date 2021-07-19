@@ -11,7 +11,7 @@ client.commands = new Discord.Collection();
 
 // Create all of the commands based on what is in the "commands" folder.
 // Commands are nested into subcategories.
-function initializeCommands() {
+export const initializeCommands = () => {
 	const commandFolders = fs.readdirSync('./commands');
 	for (const folder of commandFolders) {
 		const commandFiles = fs.readdirSync(`./commands/${folder}`).filter(file => file.endsWith('.js'));
@@ -20,23 +20,23 @@ function initializeCommands() {
 			client.commands.set(command.name, command);
 		}
 	}
-}
+};
 
 // Initialize Events
-function initializeEvents() {
+export const initializeEvents = () => {
 	const events = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 	for (const file of events) {
 		const event = require(`./events/${file}`);
 		const eventName = file.split('.')[0];
 		client.on(eventName, event.bind(null, client));
 	}
-}
+};
 
 
-function initializeBot() {
+export const initializeBot = () => {
 	initializeCommands();
 	initializeEvents();
-}
+};
 
 
 initializeBot();
@@ -44,7 +44,6 @@ initializeBot();
 
 client.on('message', (message) => {
 	const { author, content, channel } = message;
-	console.log(message);
 
 	if (author.bot) return;
 	const args = content.slice(prefix.length).trim().split(/ +/);
