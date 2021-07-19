@@ -1,4 +1,4 @@
-name: Discord Bot Continuous Integration
+name: CI/CD
 
 on:
   pull_request:
@@ -14,3 +14,4 @@ jobs:
           node-version: 12
       - run: npm ci
       - run: npm test
+      - run: npm run lint
