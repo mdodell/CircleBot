@@ -1,3 +1,3 @@
 module.exports = () => {
-	console.error('Circle is coming online! Woosh!');
+	console.log('Circle is coming online! Woosh!');
 };
