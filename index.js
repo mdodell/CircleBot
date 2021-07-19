@@ -1,7 +1,7 @@
-const Discord = require('discord.js');
-const dotenv = require('dotenv');
-const fs = require('fs');
-const { prefix } = require('./config.json');
+import Discord from 'discord.js';
+import dotenv from 'dotenv';
+import fs from 'fs';
+import { prefix } from './config.json';
 
 // Configure environment variables so they can be used in our bot.
 dotenv.config();
@@ -27,8 +27,12 @@ export const initializeEvents = () => {
 	const events = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 	for (const file of events) {
 		const event = require(`./events/${file}`);
-		const eventName = file.split('.')[0];
-		client.on(eventName, event.bind(null, client));
+		if (event.once) {
+			client.once(event.name, (...args) => event.execute(...args));
+		}
+		else {
+			client.on(event.name, (...args) => event.execute(...args));
+		}
 	}
 };
 
